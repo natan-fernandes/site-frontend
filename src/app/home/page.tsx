@@ -5,6 +5,7 @@ import { authOptions } from "../lib/authOptions";
 import { redirect } from "next/navigation";
 import logo from "@/app/assets/logo-header.png";
 import { Opcoes } from "../components/opcoes/opcoes";
+import { Walls } from "../components/opcoes/walls";
 
 export default async function Home() {
 
@@ -44,7 +45,12 @@ export default async function Home() {
         </div>
       </header>
       <main>
-        <Opcoes/>
+        <div className='flex flex-col items-center justify-center px-24 py-4'>
+          {/* <Opcoes/> */}
+          <hr/>
+          <hr/>
+          <Walls/>
+        </div>
       </main>
     </div>
   );
