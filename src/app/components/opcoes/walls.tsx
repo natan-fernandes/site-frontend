@@ -6,47 +6,43 @@ import useSWR from 'swr';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const getRow = (data: Wall, index: number) => {
-  console.log(JSON.stringify(data.data, null, 2))
-
+const getRow = (data: Wall, precoAtivo: number) => {
+  if (!data) return;
   const put = data.data.find(x => x.Tipo === "PUT")!;
   const call = data.data.find(x => x.Tipo === "CALL")!;
+
+  const putWall = getPutWall(put, precoAtivo);
+  const callWall = getCallWall(call, precoAtivo);
+  const gex = callWall + putWall;
   return (
-    <tr key={index} className='bg-slate-300 border-b'>
-      <td className='px-6 py-4'>{getCallWall(call, 1376)}</td>
-      <td className='px-6 py-4'>{getPutWall(put, 1376)}</td>
-    </tr>
+    <>
+      <td className='px-6 py-4 bg-green-600/10'>{callWall.toFixed(2)}</td>
+      <td className='px-6 py-4 bg-red-600/10'>{putWall.toFixed(2)}</td>
+      <td className='px-6 py-4'>{gex.toFixed(2)}</td>
+    </>
   )
 }
 
-const getCallWall = (data: Opcao, strike: number) => {
-  const wall = data['Núm. de Neg.'] * data.Gamma * 100 * strike * 0.01 * strike;
+const getCallWall = (data: Opcao, precoAtivo: number) => {
+  const wall = data ? data['Núm. de Neg.'] * (data.Gamma /  1000) * 100 * precoAtivo * 0.01 * precoAtivo : 0;
   return wall;
 }
 
-const getPutWall = (data: Opcao, strike: number) => {
-  const wall = data['Núm. de Neg.'] * data.Gamma * 100 * strike * 0.01 * strike * -1;
+const getPutWall = (data: Opcao, precoAtivo: number) => {
+  const wall = data ? data['Núm. de Neg.'] * (data.Gamma / 1000) * 100 * precoAtivo * 0.01 * precoAtivo * -1 : 0;
   return wall;
 }
 
-export const Walls = () => {
-  const { data, error } = useSWR<Wall[]>('/api/opcoes/walls?ticker=PETRA326', fetcher);
+interface WallsProps {
+  strike: number;
+  vencimento: string;
+  precoAtivo: number;
+}
+
+export const Walls = (props: WallsProps) => {
+  const { data, error } = useSWR<Wall[]>(`/api/opcoes/walls?vencimento=${props.vencimento}&strike=${props.strike}`, fetcher);
+  if (error) return <td colSpan={2}>Failed to load</td>
+  if (!data) return <td colSpan={2}>Loading...</td>
   
-  if (error) return <div>Failed to load</div>
-  if (!data) return <div>Loading...</div>
-  return (
-    <div className='w-full'>
-      <table className='w-1/w text-sm text-left'>
-      <thead>
-        <tr className='text-xs text-white uppercase'>
-          <th scope="col" className="px-6 py-3 bg-green-600">CALL walls</th>
-          <th scope="col" className="px-6 py-3 bg-red-600">PUT walls</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((wall, index) => getRow(wall, index))}
-      </tbody>
-      </table>
-    </div>
-  )
+  return (getRow(data[0], props.precoAtivo))
 }

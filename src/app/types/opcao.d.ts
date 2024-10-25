@@ -3,6 +3,7 @@ export type Opcao = {
     Vencimento: string;
     Tipo: string;
     "Núm. de Neg.": number;
+    "Vol. Financeiro": number;
     Gamma: number;
-    strike: number;
+    Strike: number;
 }

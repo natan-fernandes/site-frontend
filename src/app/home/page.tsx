@@ -4,11 +4,10 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../lib/authOptions";
 import { redirect } from "next/navigation";
 import logo from "@/app/assets/logo-header.png";
-import { Opcoes } from "../components/opcoes/opcoes";
-import { Walls } from "../components/opcoes/walls";
+import { ChangeEvent } from "react";
+import { Analise } from "../components/opcoes/analise";
 
 export default async function Home() {
-
   const session = await getServerSession(authOptions);
   if (!session) {
     return redirect("/");
@@ -45,12 +44,7 @@ export default async function Home() {
         </div>
       </header>
       <main>
-        <div className='flex flex-col items-center justify-center px-24 py-4'>
-          {/* <Opcoes/> */}
-          <hr/>
-          <hr/>
-          <Walls/>
-        </div>
+        <Analise/>
       </main>
     </div>
   );
