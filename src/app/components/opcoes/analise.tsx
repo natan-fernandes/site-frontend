@@ -51,6 +51,7 @@ export const Analise = () => {
       <div className="pt-4 flex gap-2">
         <Opcoes codigoAcao={acao} precoAtivo={precoAtivo} vencimento={vencimento}/>
       </div>
+      <br/>
     </div>
   )
 }

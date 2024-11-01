@@ -9,9 +9,9 @@ async function requestHandler(_request: Request): Promise<Response> {
     if (!vencimento) return new Response('Vencimento is required', { status: 400 });
 
     const pipeline = [
-        { $match: { Acao: acao, Vencimento: vencimento } },
-        // { $sort: { 'Vol. Financeiro': -1 } }, // Sort by the numeric value
-        // { $limit: 10 } // Limit results if needed
+        { $match: { Acao: acao,
+             Vencimento: '14/11/2024'
+             } }
     ];
 
     const client = await clientPromise;

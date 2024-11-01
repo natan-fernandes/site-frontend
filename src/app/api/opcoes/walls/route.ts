@@ -8,9 +8,6 @@ async function requestHandler(_request: Request): Promise<Response> {
     const strike = searchParams.get('strike');
     if (!strike) return new Response('Strike is required', { status: 400 });
 
-    console.log('vencimento', vencimento)
-    console.log('strike', strike)
-
     const client = await clientPromise;
     const db = client.db("opcoes");
 

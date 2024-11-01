@@ -16,8 +16,8 @@ const getRow = (data: Wall, precoAtivo: number) => {
   const gex = callWall + putWall;
   return (
     <>
-      <td className='px-6 py-4 bg-green-600/10'>{callWall.toFixed(2)}</td>
-      <td className='px-6 py-4 bg-red-600/10'>{putWall.toFixed(2)}</td>
+      <td className='px-6 py-4 bg-green-600/10 callWall'>{callWall.toFixed(2)}</td>
+      <td className='px-6 py-4 bg-red-600/10 putWall'>{putWall.toFixed(2)}</td>
       <td className='px-6 py-4'>{gex.toFixed(2)}</td>
     </>
   )

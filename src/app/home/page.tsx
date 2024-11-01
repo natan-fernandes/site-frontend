@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import logo from "@/app/assets/logo-header.png";
 import { ChangeEvent } from "react";
 import { Analise } from "../components/opcoes/analise";
+import { WallsChart } from "../components/opcoes/walls-chart";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -45,6 +46,8 @@ export default async function Home() {
       </header>
       <main>
         <Analise/>
+        <br/>
+        <WallsChart/>
       </main>
     </div>
   );

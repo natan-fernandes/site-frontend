@@ -9,10 +9,10 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const getRow = (data: Opcao, precoAtivo: number) => {
   return <tr key={data.Ticker} className='bg-slate-300 border-b'>
   <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">{data.Ticker}</th>
-  <td className='px-6 py-4'>{data.Vencimento}</td>
+  <td className='px-6 py-4 vencimento'>{data.Vencimento}</td>
   <td className='px-6 py-4'>{data.Tipo}</td>
   <td className='px-6 py-4'>{data['Vol. Financeiro']}</td>
-  <td className='px-6 py-4'>{(data.Strike/100).toFixed(2)}</td>
+  <td className='px-6 py-4 strike'>{(data.Strike/100).toFixed(2)}</td>
   <Walls precoAtivo={precoAtivo} strike={data.Strike} vencimento={data.Vencimento}/>
 </tr>
 }
@@ -30,7 +30,7 @@ export const Opcoes = (props: OpcoesProps) => {
   if (!data) return <div>Loading...</div>
   return (
     <div className='w-full'>
-      <table className='w-full text-sm text-left rtl:text-right text-gray-500'>
+      <table id='tabelaOpcoes' className='w-full text-sm text-left rtl:text-right text-gray-500'>
         <thead>
           <tr className='text-xs text-gray-700 uppercase bg-sky-500'>
             <th scope="col" className="px-6 py-3">Ticker</th>
@@ -47,6 +47,7 @@ export const Opcoes = (props: OpcoesProps) => {
         {data.sort((a, b) => b['Vol. Financeiro'] - a['Vol. Financeiro']).map((item) => getRow(item, props.precoAtivo))}
         </tbody>
       </table>
+      <br/>
     </div>
   )
 }
